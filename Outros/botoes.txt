@@ -1,0 +1,26 @@
+void set_temp()
+{				
+	 if (((PIND&(1<<PIND4)) == 0) || ((PIND&(1<<PIND3)) == 0)){
+	
+	 flag = true;
+	_delay_ms(500);
+	if (((PIND&(1<<PIND4)) == 0)){
+			digito_select1 = digito_select1 +1;
+			if (digito_select1 >9 ) {digito_select1 =0;}
+			_delay_ms(500);
+	}
+	
+	if (((PIND&(1<<PIND3)) == 0)){
+			digito_select0 = digito_select0 +1;
+			if (digito_select0 >9 ) {digito_select0 =0;}
+			_delay_ms(500);
+	}
+	if( ((PIND&(1<<PIND3)) == 0) && ((PIND&(1<<PIND4)) == 0))
+	{		
+			_delay_ms(1000);
+			flag=false;
+		 temp_sel  = ((digito_select0*10)+ digito_select1);
+	}
+
+	}
+}//void

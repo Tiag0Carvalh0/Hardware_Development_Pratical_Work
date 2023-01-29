@@ -1,0 +1,54 @@
+switch (est_bot){
+
+case 0:
+if(((PIND&(1<<PIND4)) == 0) || if((PIND&(1<<PIND3)) == 0)){
+flag= true;
+est_bot = est_bot+1;
+}
+break;
+case 1:
+if((PIND&(1<<PIND4)) == 0 && (flag == true)){
+pressed = true;
+est_bot = est_bot +1;
+} else {est_bot = 3;}
+break;
+
+case 2:
+if((PIND&(1<<PIND4)) == 0 && (flag == true) && (pressed == true)){
+digito_select1 = digito_select1 +1;
+if (digito_select1 > 9){digito_select1 = 0;}
+est_bot = est_bot+1;
+pressed = false;
+}
+
+break;
+
+case 3:
+if((PIND&(1<<PIND3)) == 0 && (flag == true)){
+pressed = true;
+est_bot = est_bot +1;
+} else {est_bot = 5;}
+break;
+
+case 4:
+if((PIND&(1<<PIND3)) == 0 && (flag == true) && (pressed == true)){
+digito_select0 = digito_select0 +1;
+if (digito_select0 > 9){digito_select0 = 0;}
+est_bot = est_bot+1;
+pressed = false;
+}
+break;
+
+case 5:
+if( ((PIND&(1<<PIND3)) == 0) && ((PIND&(1<<PIND4))==0)  && (flag == true)){
+pressed = true;
+est_bot = est_bot +1;
+} else {est_bot = 1;}
+break;
+
+case 6:
+if( ((PIND&(1<<PIND3)) == 0) && ((PIND&(1<<PIND4))==0)  && (flag == true) && (pressed == true)){
+
+flag= false;
+}
+}//switch

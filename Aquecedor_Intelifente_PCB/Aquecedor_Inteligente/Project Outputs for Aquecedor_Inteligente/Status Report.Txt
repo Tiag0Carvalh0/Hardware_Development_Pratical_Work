@@ -1,0 +1,24 @@
+Output: Gerber Files
+Type  : Gerber
+From  : Variant [[No Variations]] of Project [Aquecedor_Inteligente.PrjPcb]
+   Generated File[PCB_Aquecedor.GTO]
+   Generated File[PCB_Aquecedor.GTP]
+   Generated File[PCB_Aquecedor.GTS]
+   Generated File[PCB_Aquecedor.GTL]
+   Generated File[PCB_Aquecedor.GBL]
+   Generated File[PCB_Aquecedor.GBS]
+   Generated File[PCB_Aquecedor.GM1]
+   Generated File[PCB_Aquecedor.GM13]
+   Generated File[PCB_Aquecedor.GM15]
+   Generated File[PCB_Aquecedor.GKO]
+   Generated File[PCB_Aquecedor.GPT]
+   Generated File[PCB_Aquecedor.GPB]
+   Generated File[PCB_Aquecedor.RUL]
+   Generated File[PCB_Aquecedor.EXTREP]
+   Generated File[PCB_Aquecedor.REP]
+
+
+Files Generated   : 15
+Documents Printed : 0
+
+Finished Output Generation At 12:36:50 On 11/12/2020

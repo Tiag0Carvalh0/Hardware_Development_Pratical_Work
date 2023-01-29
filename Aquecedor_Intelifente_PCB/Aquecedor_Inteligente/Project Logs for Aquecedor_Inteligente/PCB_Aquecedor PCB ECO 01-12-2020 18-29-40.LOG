@@ -1,0 +1,29 @@
+Removed Pin From Net: NetName=GND Pin=BC1-3
+Removed Pin From Net: NetName=GND Pin=BC2-3
+Removed Pin From Net: NetName=5V Pin=Cap1-1
+Removed Pin From Net: NetName=RST Pin=R1-1
+Removed Pin From Net: NetName=5V Pin=R1-2
+Removed Pin From Net: NetName=GND Pin=R2-1
+Removed Pin From Net: NetName=5V Pin=Reset-3
+Change Component Comment : Designator=CAP4 Old Comment=33pF New Comment=10uF
+Change Component Comment : Designator=CAP5 Old Comment=33pF New Comment=10uF
+Change Component Designator: OldDesignator=Down NewDesignator=Buttom2
+Change Component Designator: OldDesignator=Reset NewDesignator=Buttom1
+Change Component Designator: OldDesignator=Up NewDesignator=Buttom3
+Added Pin To Net: NetName=GND Pin=BC1-1
+Added Pin To Net: NetName=GND Pin=BC2-1
+Added Pin To Net: NetName=GND Pin=Buttom1-3
+Added Pin To Net: NetName=GND Pin=Cap1-1
+Added Pin To Net: NetName=5V Pin=R2-1
+Added Pin To Net: NetName=NetBC1_3 Pin=BC1-3
+Added Pin To Net: NetName=NetBC1_3 Pin=Display1-14
+Added Net: Name=NetBC1_3
+Added Pin To Net: NetName=NetBC2_3 Pin=BC2-3
+Added Pin To Net: NetName=NetBC2_3 Pin=Display1-13
+Added Net: Name=NetBC2_3
+Added Room: Name=Esquema_Principal
+Added Room: Name=U_Esquema_ATMEGA328
+Added Room: Name=U_Esquema_Display
+Added Room: Name=U_Esquema NTC
+Added Room: Name=U_Esquematico_Fonte
+Added Room: Name=U_Esquematico_MOSFET

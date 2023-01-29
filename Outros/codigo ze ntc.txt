@@ -1,0 +1,378 @@
+
+#include <avr/io.h>
+#include <util/delay.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>	 //for itoa()
+#include <math.h>
+
+uint16_t analogValue;
+#define beta 3169
+long R;
+uint16_t Thermister;
+uint8_t temp_int = 0;
+uint8_t digito1 =0;
+uint8_t digito0 = 0;
+uint8_t estado = 0;
+
+void ADC_Init(void)
+{
+	ADCSRA  = (1 << ADEN) | (7 << ADPS0); //div 128 i.e. 125kHz
+	ADMUX = (1 << REFS0); //Internal 5V (AVcc)
+}
+
+uint16_t adc(uint8_t channel)
+{
+	ADMUX &= 0XF0;         //clearing channels
+	ADMUX |= channel;      //defining channel value
+	ADCSRA |= (1 << ADSC); //start new conversion
+	while (ADCSRA & (1 << ADSC)); //wait for completion
+	return ADCW;           //return the value (word)
+}
+uint16_t getTemp()
+{
+	analogValue = adc(0);		
+	R = 1023 - analogValue;
+	Thermister = beta /(log((1025.0 * 100 / R - 100) / 100) + beta / 298.0) - 273.0;
+	return Thermister;
+}
+int main(void)
+{	
+
+DDRD &= ~(1 << PIND3)|(1 << PIND4);//Entrada Botoes PD3 e PD4(Botões escolher temp)
+DDRC &= ~(1 << PINC6);   //Entrada botao reset PC6
+DDRB |= (1<<PINB6)|(1<<PINB7); // Saida BJTs PB6 e PB7 (Controlar os displays)
+DDRD |= (1<<PIND2)| (1<<PIND6); //Saida Leds
+
+//Saida Display
+//A - PC5 //B - PC4 //C - PC3 //D - PC2	//E - PB0 //F - PD7 //G - PB2 //DT - PB1
+DDRB |= (1<<PINB2)|(1<<PINB1)|(1<<PINB0);
+DDRC |= (1<<PINC5)|(1<<PINC4)|(1<<PINC3)|(1<<PINC2);
+DDRD |= (1<<PIND7);
+//DDRD |= (1<<PIND5);//Saida PWM - PD5
+//MCUCR = (1<<ISC01) | (0<<ISC00); //Activate on Falling
+
+	ADC_Init();
+
+	uint16_t temp;
+	
+	while(1)
+	{
+		temp_int = getTemp();
+		digito1 = temp_int /10;	//Digito da Esquerda
+		digito0 = temp_int % 10;	//Digito da Direita
+
+		switch(estado)
+		{
+			case 0:
+			num_digito0();
+			estado = estado+1;
+			break;
+
+			case 1:
+			PORTB  &= ~ (1<<PINB7);
+			PORTB &= ~(1<<PINB6);
+			PORTC &= ~ (1<<PINC5);
+			PORTC  &= ~ (1<<PINC4);
+			PORTC  &= ~ (1<<PINC3);
+			PORTC &= ~ (1<<PINC2);
+			PORTB &= ~ (1<<PINB2);
+			PORTB  &= ~ (1<<PINB1);
+			PORTB &= ~ (1<<PINB0);
+			PORTD &= ~ (1<<PIND7);
+			estado = estado+1;
+			break;
+
+			case 2:
+			num_digito1();
+			estado = estado+1;
+			break;
+			case 3:
+			PORTB  &= ~ (1<<PINB7);
+			PORTB &= ~(1<<PINB6);
+			PORTC &= ~ (1<<PINC5);
+			PORTC  &= ~ (1<<PINC4);
+			PORTC  &= ~ (1<<PINC3);
+			PORTC &= ~ (1<<PINC2);
+			PORTB &= ~ (1<<PINB2);
+			PORTB  &= ~ (1<<PINB1);
+			PORTB &= ~ (1<<PINB0);
+			PORTD &= ~ (1<<PIND7);
+			estado = 0;
+			break;
+		}
+	}
+}
+
+void num_digito0(){
+
+	switch(digito0){
+		case 0: //Digito 0
+		PORTB |= (1<<PINB7);//Direita
+		PORTB &= ~ (1<<PINB6);//Esquerda
+		PORTC |= (1<<PINC5);
+		PORTC |= (1<<PINC4);
+		PORTC |= (1<<PINC3);
+		PORTC |= (1<<PINC2);
+		PORTB &= ~ (1<<PINB2);
+		PORTB |= (1<<PINB1);
+		PORTB |= (1<<PINB0);
+		PORTD |= (1<<PIND7);
+		break;
+		
+		case 1: //Digito 1
+		PORTB |= (1<<PINB7);
+		PORTB &= ~(1<<PINB6);
+		PORTC &= ~ (1<<PINC5);
+		PORTC |= (1<<PINC4);
+		PORTC |= (1<<PINC3);
+		PORTC &= ~ (1<<PINC2);
+		PORTB &= ~ (1<<PINB2);
+		PORTB |= (1<<PINB1);
+		PORTB &= ~ (1<<PINB0);
+		PORTD &= ~ (1<<PIND7);
+		break;
+		
+		case 2: //Digito 2
+		PORTB |= (1<<PINB7);
+		PORTB &= ~(1<<PINB6);
+		PORTC |= (1<<PINC5);
+		PORTC |= (1<<PINC4);
+		PORTC &= ~ (1<<PINC3);
+		PORTC |= (1<<PINC2);
+		PORTB |= (1<<PINB2);
+		PORTB |= (1<<PINB1);
+		PORTB |= (1<<PINB0);
+		PORTD &= ~ (1<<PIND7);
+		break;
+		
+		case 3://Digito 3
+		PORTB |= (1<<PINB7);
+		PORTB &= ~(1<<PINB6);
+		PORTC |= (1<<PINC5);
+		PORTC |= (1<<PINC4);
+		PORTC |= (1<<PINC3);
+		PORTC |= (1<<PINC2);
+		PORTB |= (1<<PINB2);
+		PORTB |= (1<<PINB1);
+		PORTB &= ~ (1<<PINB0);
+		PORTD &= ~ (1<<PIND7);
+		break;
+		
+		case 4://Digito 4
+		PORTB |= (1<<PINB7);
+		PORTB &= ~(1<<PINB6);
+		PORTC &= ~ (1<<PINC5);
+		PORTC |= (1<<PINC4);
+		PORTC |= (1<<PINC3);
+		PORTC &= ~ (1<<PINC2);
+		PORTB |= (1<<PINB2);
+		PORTB |= (1<<PINB1);
+		PORTB &= ~ (1<<PINB0);
+		PORTD |= (1<<PIND7);
+		break;
+		
+		case 5://Digito 5
+		PORTB |= (1<<PINB7);
+		PORTB &= ~(1<<PINB6);
+		PORTC |= (1<<PINC5);
+		PORTC &= ~ (1<<PINC4);
+		PORTC |= (1<<PINC3);
+		PORTC |= (1<<PINC2);
+		PORTB |= (1<<PINB2);
+		PORTB |= (1<<PINB1);
+		PORTB &= ~ (1<<PINB0);
+		PORTD |= (1<<PIND7);
+		break;
+		
+		case 6://Digito 6
+		PORTB |= (1<<PINB7);
+		PORTB &= ~(1<<PINB6);
+		PORTC |= (1<<PINC5);
+		PORTC &= ~ (1<<PINC4);
+		PORTC |= (1<<PINC3);
+		PORTC |= (1<<PINC2);
+		PORTB |= (1<<PINB2);
+		PORTB |= (1<<PINB1);
+		PORTB |= (1<<PINB0);
+		PORTD |= (1<<PIND7);
+		break;
+		
+		case 7://Digito 7
+		PORTB |= (1<<PINB7);
+		PORTB &= ~(1<<PINB6);
+		PORTC |= (1<<PINC5);
+		PORTC |= (1<<PINC4);
+		PORTC |= (1<<PINC3);
+		PORTC &= ~ (1<<PINC2);
+		PORTB &= ~ (1<<PINB2);
+		PORTB |= (1<<PINB1);
+		PORTB &= ~ (1<<PINB0);
+		PORTD &= ~ (1<<PIND7);
+		break;
+		
+		case 8: //Digito 8
+		PORTB |= (1<<PINB7);
+		PORTB &= ~(1<<PINB6);
+		PORTC |= (1<<PINC5);
+		PORTC |= (1<<PINC4);
+		PORTC |= (1<<PINC3);
+		PORTC |= (1<<PINC2);
+		PORTB |= (1<<PINB2);
+		PORTB |= (1<<PINB1);
+		PORTB |= (1<<PINB0);
+		PORTD |= (1<<PIND7);
+		break;
+		
+		case 9://Digito 9
+		PORTB |= (1<<PINB7);
+		PORTB &= ~(1<<PINB6);
+		PORTC |= (1<<PINC5);
+		PORTC |= (1<<PINC4);
+		PORTC |= (1<<PINC3);
+		PORTC &= ~(1<<PINC2);
+		PORTB |= (1<<PINB2);
+		PORTB |= (1<<PINB1);
+		PORTB &= ~(1<<PINB0);
+		PORTD |= (1<<PIND7);
+		break;
+		
+	}//Switch
+}//Void
+void num_digito1()
+{
+	switch(digito1)
+	{
+		case 0: //Digito 0
+		PORTB |= (1<<PINB6);
+		PORTB &= ~(1<<PINB7);
+		PORTC |= (1<<PINC5);
+		PORTC |= (1<<PINC4);
+		PORTC |= (1<<PINC3);
+		PORTC |= (1<<PINC2);
+		PORTB &= ~ (1<<PINB2);
+		PORTB |= (1<<PINB1);
+		PORTB |= (1<<PINB0);
+		PORTD |= (1<<PIND7);
+		break;
+		
+		case 1: //Digito 1
+		PORTB |= (1<<PINB6);
+		PORTB &= ~(1<<PINB7);
+		PORTC &= ~ (1<<PINC5);
+		PORTC |= (1<<PINC4);
+		PORTC |= (1<<PINC3);
+		PORTC &= ~ (1<<PINC2);
+		PORTB &= ~ (1<<PINB2);
+		PORTB |= (1<<PINB1);
+		PORTB &= ~ (1<<PINB0);
+		PORTD &= ~ (1<<PIND7);
+		break;
+		
+		case 2: //Digito 2
+		PORTB |= (1<<PINB6);
+		PORTB &= ~(1<<PINB7);
+		PORTC |= (1<<PINC5);
+		PORTC |= (1<<PINC4);
+		PORTC &= ~ (1<<PINC3);
+		PORTC |= (1<<PINC2);
+		PORTB |= (1<<PINB2);
+		PORTB |= (1<<PINB1);
+		PORTB |= (1<<PINB0);
+		PORTD &= ~ (1<<PIND7);
+		break;
+		
+		case 3://Digito 3
+		PORTB &= ~(1<<PINB7);
+		PORTB |= (1<<PINB6);
+		PORTC |= (1<<PINC5);
+		PORTC |= (1<<PINC4);
+		PORTC |= (1<<PINC3);
+		PORTC |= (1<<PINC2);
+		PORTB |= (1<<PINB2);
+		PORTB |= (1<<PINB1);
+		PORTB &= ~ (1<<PINB0);
+		PORTD &= ~ (1<<PIND7);
+		break;
+		
+		case 4://Digito 4
+		PORTB |= (1<<PINB6);
+		PORTB &= ~(1<<PINB7);
+		PORTC &= ~ (1<<PINC5);
+		PORTC |= (1<<PINC4);
+		PORTC |= (1<<PINC3);
+		PORTC &= ~ (1<<PINC2);
+		PORTB |= (1<<PINB2);
+		PORTB |= (1<<PINB1);
+		PORTB &= ~ (1<<PINB0);
+		PORTD |= (1<<PIND7);
+		break;
+		
+		case 5://Digito 5
+		PORTB |= (1<<PINB6);
+		PORTB &= ~(1<<PINB7);
+		PORTC |= (1<<PINC5);
+		PORTC &= ~ (1<<PINC4);
+		PORTC |= (1<<PINC3);
+		PORTC |= (1<<PINC2);
+		PORTB |= (1<<PINB2);
+		PORTB |= (1<<PINB1);
+		PORTB &= ~ (1<<PINB0);
+		PORTD |= (1<<PIND7);
+		break;
+		
+		case 6://Digito 6
+		PORTB |= (1<<PINB6);
+		PORTB &= ~(1<<PINB7);
+		PORTC |= (1<<PINC5);
+		PORTC &= ~ (1<<PINC4);
+		PORTC |= (1<<PINC3);
+		PORTC |= (1<<PINC2);
+		PORTB |= (1<<PINB2);
+		PORTB |= (1<<PINB1);
+		PORTB |= (1<<PINB0);
+		PORTD |= (1<<PIND7);
+		break;
+		
+		case 7://Digito 7
+		PORTB |= (1<<PINB6);
+		PORTB &= ~(1<<PINB7);
+		PORTC |= (1<<PINC5);
+		PORTC |= (1<<PINC4);
+		PORTC |= (1<<PINC3);
+		PORTC &= ~ (1<<PINC2);
+		PORTB &= ~ (1<<PINB2);
+		PORTB |= (1<<PINB1);
+		PORTB &= ~ (1<<PINB0);
+		PORTD &= ~ (1<<PIND7);
+		break;
+		
+		case 8: //Digito 8
+		PORTB |= (1<<PINB6);
+		PORTB &= ~(1<<PINB7);
+		PORTC |= (1<<PINC5);
+		PORTC |= (1<<PINC4);
+		PORTC |= (1<<PINC3);
+		PORTC |= (1<<PINC2);
+		PORTB |= (1<<PINB2);
+		PORTB |= (1<<PINB1);
+		PORTB |= (1<<PINB0);
+		PORTD |= (1<<PIND7);
+		break;
+		
+		case 9://Digito 9
+		PORTB |= (1<<PINB6);
+		PORTB &= ~(1<<PINB7);
+		PORTC |= (1<<PINC5);
+		PORTC |= (1<<PINC4);
+		PORTC |= (1<<PINC3);
+		PORTC &= ~(1<<PINC2);
+		PORTB |= (1<<PINB2);
+		PORTB |= (1<<PINB1);
+		PORTB &= ~(1<<PINB0);
+		PORTD |= (1<<PIND7);
+		break;
+		
+	}//Switch
+}//Void
+

@@ -1,0 +1,15 @@
+//tempk1 = (Temp_Inicial*b);
+//tempk2 = log(82/100.00);
+//tempk3 = (Temp_Inicial * tempk2);
+// tempk4 = (tempk3 + b);
+//temp_intk = (tempk1/ tempk4);
+
+//temp_intk=((298.15*3169)/((298.15*(log(82/100))+3169)));
+//temp_int = (temp_intk - 273.15);
+
+
+//temp_int = (1/((1/273.15)-((log(100/Res))/b)));
+//Res = ((val_int*5)/1023);
+//Res = (val_int*256+ADCL) * Vcc/ 1023;  // converte em tensao
+//temp_int =((Res-1.2)/0.039);
+//temp_int =((val_int*5)/1024);

@@ -1,0 +1,16 @@
+Removed Pin From Net: NetName=RX Pin=P2-1
+Removed Pin From Net: NetName=TX Pin=P2-2
+Removed Pin From Net: NetName=5V Pin=P2-3
+Removed Pin From Net: NetName=NetBC1_1 Pin=P2-4
+Change Component Comment : Designator=P2 Old Comment=Header 4 New Comment=Header 6
+Added Pin To Net: NetName=RX Pin=P2-2
+Added Pin To Net: NetName=TX Pin=P2-3
+Added Pin To Net: NetName=5V Pin=P2-4
+Added Pin To Net: NetName=NetBC1_1 Pin=P2-6
+Added Member To Class: ClassName=U_Esquema_ATMEGA328 Member=Component P2 Header 6
+Added Room: Name=Esquema_Principal
+Added Room: Name=U_Esquema_ATMEGA328
+Added Room: Name=U_Esquema_Display
+Added Room: Name=U_Esquema NTC
+Added Room: Name=U_Esquematico_Fonte
+Added Room: Name=U_Esquematico_MOSFET

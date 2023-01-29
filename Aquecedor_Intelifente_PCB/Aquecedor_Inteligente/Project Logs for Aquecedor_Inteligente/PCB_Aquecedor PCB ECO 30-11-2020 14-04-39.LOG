@@ -1,0 +1,51 @@
+Removed Pin From Net: NetName=NetDisplay1_12 Pin=IC1-13
+Removed Pin From Net: NetName=NetDisplay1_7 Pin=IC1-16
+Removed Pin From Net: NetName=NetDisplay1_10 Pin=IC1-27
+Removed Pin From Net: NetName=NetDisplay1_11 Pin=IC1-28
+Removed Pin From Net: NetName=NetDisplay1_11 Pin=R9-1
+Removed Pin From Net: NetName=NetDisplay1_10 Pin=R10-1
+Removed Pin From Net: NetName=NetDisplay1_12 Pin=R14-1
+Removed Pin From Net: NetName=NetDisplay1_7 Pin=R15-1
+Change Component Designator: OldDesignator=Reset NewDesignator=Buttom1
+Added Pin To Net: NetName=NetDisplay1_1 Pin=Display1-5
+Added Pin To Net: NetName=NetDisplay1_2 Pin=Display1-6
+Added Pin To Net: NetName=NetDisplay1_3 Pin=Display1-8
+Added Pin To Net: NetName=NetDisplay1_4 Pin=Display1-9
+Added Pin To Net: NetName=NetDisplay1_10 Pin=Display1-15
+Added Pin To Net: NetName=NetDisplay1_11 Pin=Display1-16
+Added Pin To Net: NetName=NetDisplay1_7 Pin=Display1-17
+Added Pin To Net: NetName=NetDisplay1_12 Pin=Display1-18
+Added Pin To Net: NetName=NetDisplay1_11 Pin=R9-2
+Added Pin To Net: NetName=NetDisplay1_10 Pin=R10-2
+Added Pin To Net: NetName=NetDisplay1_12 Pin=R14-2
+Added Pin To Net: NetName=NetDisplay1_7 Pin=R15-2
+Added Pin To Net: NetName=NetIC1_13 Pin=IC1-13
+Added Pin To Net: NetName=NetIC1_13 Pin=R14-1
+Added Net: Name=NetIC1_13
+Added Pin To Net: NetName=NetIC1_14 Pin=IC1-14
+Added Pin To Net: NetName=NetIC1_14 Pin=R13-1
+Added Net: Name=NetIC1_14
+Added Pin To Net: NetName=NetIC1_15 Pin=IC1-15
+Added Pin To Net: NetName=NetIC1_15 Pin=R16-1
+Added Net: Name=NetIC1_15
+Added Pin To Net: NetName=NetIC1_16 Pin=IC1-16
+Added Pin To Net: NetName=NetIC1_16 Pin=R15-1
+Added Net: Name=NetIC1_16
+Added Pin To Net: NetName=NetIC1_25 Pin=IC1-25
+Added Pin To Net: NetName=NetIC1_25 Pin=R12-1
+Added Net: Name=NetIC1_25
+Added Pin To Net: NetName=NetIC1_26 Pin=IC1-26
+Added Pin To Net: NetName=NetIC1_26 Pin=R11-1
+Added Net: Name=NetIC1_26
+Added Pin To Net: NetName=NetIC1_27 Pin=IC1-27
+Added Pin To Net: NetName=NetIC1_27 Pin=R10-1
+Added Net: Name=NetIC1_27
+Added Pin To Net: NetName=NetIC1_28 Pin=IC1-28
+Added Pin To Net: NetName=NetIC1_28 Pin=R9-1
+Added Net: Name=NetIC1_28
+Added Room: Name=Esquema_Principal
+Added Room: Name=U_Esquema_ATMEGA328
+Added Room: Name=U_Esquema_Display
+Added Room: Name=U_Esquema NTC
+Added Room: Name=U_Esquematico_Fonte
+Added Room: Name=U_Esquematico_MOSFET
